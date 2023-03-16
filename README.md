@@ -13,4 +13,4 @@ It uses the HttpClient to read the bytes from the image url and saves the bytes 
 
 ## Warning ##
 
-**You should be aware that many of the images on Bing's home page are copywrited and you cannot use them publicly without getting rights from the owner. **
+** You should be aware that many of the images on Bing's home page are copywrited and you cannot use them publicly without getting rights from the owner. **
