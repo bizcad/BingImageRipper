@@ -1,5 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
 using System.Text;
 
 namespace BingImageRipper
@@ -21,14 +19,15 @@ namespace BingImageRipper
         {
             label1.Text = $"Fetching Image";
             Refresh();
-            string url = "https://www.bing.com/?pc=U474";
+            string url = "https://www.bing.com/";
             string address = @"E:\OneDrive - Personal\OneDrive\Pictures\Big Saved Pictures\";
             string filename = "image.jpg";
 
             using (HttpClient client = new())
             {
                 string contents = GetLatestVersion(client, url);
-                Clipboard.SetText(contents);
+                // for development, get a 
+                //Clipboard.SetText(contents);
                 int index = contents.IndexOf($"1080");
                 index -= 125;
                 index = contents.IndexOf($"th?", index);
@@ -50,7 +49,7 @@ namespace BingImageRipper
                     var imageBytes = await response.Content.ReadAsByteArrayAsync();
                     using var stream = new MemoryStream(imageBytes);
                     Image image = Image.FromStream(stream);
-                    // Do something with the image...
+                    
                     filename = $"{address}{title}";
                     if (File.Exists(filename)) { File.Delete(filename); }
                     Thread.Sleep(50);
