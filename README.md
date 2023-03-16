@@ -11,7 +11,7 @@ It uses simple string search IndexOf to locate the `th?` and `jpg` to substring 
 
 It uses the HttpClient to read the bytes from the image url and saves the bytes to the file.
 
-I am using the images for testing another application I am writing to get a web palette from an image similar to the excellent utiltity which may be found at <a href="https://icolorpalette.com/color-palette-from-images"> <img class="logo ezlazyloaded" src="https://icolorpalette.com/wp-content/themes/icolorpalette-child/logo.png?ezimgfmt=rs:230x36/rscb7/ngcb6/notWebP" alt="iColorpalette" style="max-width:230px" ezimgfmt="rs rscb7 src ng ngcb6" data-ezsrc="https://icolorpalette.com/wp-content/themes/icolorpalette-child/logo.png?ezimgfmt=rs:230x36/rscb7/ngcb6/notWebP" height="57" width="365" ezoid="0.5831869640450245"></a>
+I am using the images for testing another application I am writing to get a web palette from an image similar to the excellent utiltity which may be found at <a href="https://icolorpalette.com/color-palette-from-images"> <img class="logo ezlazyloaded" src="https://icolorpalette.com/wp-content/themes/icolorpalette-child/logo.png?ezimgfmt=rs:230x36/rscb7/ngcb6/notWebP" alt="iColorpalette" style="max-width:230px" ezimgfmt="rs rscb7 src ng ngcb6" data-ezsrc="https://icolorpalette.com/wp-content/themes/icolorpalette-child/logo.png?ezimgfmt=rs:230x36/rscb7/ngcb6/notWebP" height="31" width="200" ezoid="0.5831869640450245"></a>
 
 ## Warning ##
 
