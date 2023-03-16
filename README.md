@@ -7,7 +7,7 @@ This is the first version and does not even have a version.  As a starting point
 - the image href which starts with `th?` and contains `1080`.
 - the meta property *og.title* which contains a title for the image.
 
-It uses simple string search IndexOf to locate the `th?` and `jpg` to substring the href.  It does a similar thing to substring the title.  From these, the program builds a file path to an images folder on my hard drive.  This path is hard coded YMMV.
+It uses simple string search IndexOf to locate the `th?` and `jpg` to substring the href.  It does a similar thing to substring the title.  From these, the program builds a file path to an images folder on my hard drive.  This path is hard coded to a hard disk on my development computer.  You should change the code to save to a location on your computer.
 
 It uses the HttpClient to read the bytes from the image url and saves the bytes to the file.
 
