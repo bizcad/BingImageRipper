@@ -1,5 +1,5 @@
 # BingImageRipper
-This simple application scrapes the daily background image from the Bing homepage.
+This simple dotnet 7.0 Winform application scrapes the daily background image from the Bing homepage.
 
 It is for demonstrating the new(ish) HttpClient by reading the content of https://www.bing.com.
 
