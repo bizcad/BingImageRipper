@@ -49,13 +49,20 @@ namespace BingImageRipper
                 Image image = Image.FromStream(stream);
 
                 string filename = $"{address}{title}";
-                if (File.Exists(filename)) { File.Delete(filename); }
-                Thread.Sleep(50);
-                image.Save(filename);
-                Thread.Sleep(50);
+                if (!File.Exists(filename))
+                {
+                    Thread.Sleep(50);
+                    image.Save(filename);
+                    Thread.Sleep(50);
+                    label1.Text = $"image saved: {title}";
+                    Refresh();
+                }
+                else
+                {
+                    label1.Text = $"image already exists: {title}";
+                    Refresh();
+                }
             }
-            label1.Text = $"image saved: {title}";
-            Refresh();
             Thread.Sleep(2000);
             this.Close();
         }
