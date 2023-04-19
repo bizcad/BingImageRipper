@@ -10,7 +10,7 @@ namespace BingImageRipper
             InitializeComponent();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void Button1_Click(object sender, EventArgs e)
         {
             await FetchBackgroundImage();
         }
@@ -21,53 +21,48 @@ namespace BingImageRipper
             Refresh();
             string url = "https://www.bing.com/";
             string address = @"E:\OneDrive - Personal\OneDrive\Pictures\Big Saved Pictures\";
-            string filename = "image.jpg";
+            using HttpClient client = new();
+            string contents = GetLatestVersion(client, url);
+            // for development, get a 
+            //Clipboard.SetText(contents);
+            int startingIndex = contents.IndexOf($"1080");
+            startingIndex -= 125;
+            startingIndex = contents.IndexOf($"th?", startingIndex);
+            int endingIndex = contents.IndexOf(".jpg", startingIndex) + ".jpg".Length;
+            StringBuilder sb = new();
+            sb.Append(@"https://bing.com/");
+            sb.Append(contents.AsSpan(startingIndex, endingIndex - startingIndex));
+            url = sb.ToString();
 
-            using (HttpClient client = new())
+            // get a filename from the title in the og:title meta tag
+            string find = @"<meta property=""og:title"" content=";
+            startingIndex = contents.IndexOf(find, 0) + 1 + find.Length;
+            endingIndex = contents.IndexOf(@"/>", startingIndex) - 2;
+            title = contents[startingIndex..endingIndex];
+            title += ".jpg";
+
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
             {
-                string contents = GetLatestVersion(client, url);
-                // for development, get a 
-                //Clipboard.SetText(contents);
-                int index = contents.IndexOf($"1080");
-                index -= 125;
-                index = contents.IndexOf($"th?", index);
-                int endix = contents.IndexOf(".jpg", index) + ".jpg".Length;
-                StringBuilder sb = new();
-                sb.Append(@"https://bing.com/");
-                sb.Append(contents.Substring(index, endix - index));
-                url = sb.ToString();
+                var imageBytes = await response.Content.ReadAsByteArrayAsync();
+                using var stream = new MemoryStream(imageBytes);
+                Image image = Image.FromStream(stream);
 
-                string find = @"<meta property=""og:title"" content=";
-                index = contents.IndexOf(find, 0) + 1 + find.Length;
-                endix = contents.IndexOf(@"/>", index) - 2;
-                title = contents.Substring(index, endix - index);
-                title += ".jpg";
-
-                var response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
-                {
-                    var imageBytes = await response.Content.ReadAsByteArrayAsync();
-                    using var stream = new MemoryStream(imageBytes);
-                    Image image = Image.FromStream(stream);
-                    
-                    filename = $"{address}{title}";
-                    if (File.Exists(filename)) { File.Delete(filename); }
-                    Thread.Sleep(50);
-                    image.Save(filename);
-                    Thread.Sleep(50);
-                }
-                label1.Text = $"image saved: {title}";
-                Refresh();
-                Thread.Sleep(2000);
-                this.Close();
-
+                string filename = $"{address}{title}";
+                if (File.Exists(filename)) { File.Delete(filename); }
+                Thread.Sleep(50);
+                image.Save(filename);
+                Thread.Sleep(50);
             }
+            label1.Text = $"image saved: {title}";
+            Refresh();
+            Thread.Sleep(2000);
+            this.Close();
         }
 
-        private string GetLatestVersion(HttpClient client, string url)
+        private static string GetLatestVersion(HttpClient client, string url)
         {
             return client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
-
         }
 
         private async void Form1_Load(object sender, EventArgs e)
