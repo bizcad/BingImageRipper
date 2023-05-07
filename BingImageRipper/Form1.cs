@@ -1,5 +1,6 @@
 using System.Text;
 
+
 namespace BingImageRipper
 {
     public partial class Form1 : Form
@@ -20,19 +21,44 @@ namespace BingImageRipper
             label1.Text = $"Fetching Image";
             Refresh();
             string url = "https://www.bing.com/";
-            string address = @"E:\OneDrive - Personal\OneDrive\Pictures\Big Saved Pictures\";
             using HttpClient client = new();
             string contents = GetLatestVersion(client, url);
             // for development, get a 
             //Clipboard.SetText(contents);
-            int startingIndex = contents.IndexOf($"1080");
-            startingIndex -= 125;
-            startingIndex = contents.IndexOf($"th?", startingIndex);
-            int endingIndex = contents.IndexOf(".jpg", startingIndex) + ".jpg".Length;
+            int startingIndex = contents.IndexOf("th?");
+            startingIndex = contents.IndexOf("th?", startingIndex + 3);  // get the second one
+            
+            int endingIndex;
             StringBuilder sb = new();
-            sb.Append(@"https://bing.com/");
-            sb.Append(contents.AsSpan(startingIndex, endingIndex - startingIndex));
-            url = sb.ToString();
+            if (startingIndex > 0)
+            {
+                string c = "1080";
+                char e = '"';
+                
+                endingIndex = contents.IndexOf(c, startingIndex);
+                endingIndex=  contents.IndexOf(e, endingIndex);
+
+                sb = new();
+                sb.Append(@"https://bing.com/");
+                sb.Append(contents.AsSpan(startingIndex, endingIndex - startingIndex));
+                url = sb.ToString();
+                url = url[..url.IndexOf('&')];
+            }
+            if (url.Length == 0)
+            {
+                throw new Exception("url not found");
+            }
+            //else
+            //{
+
+            //}
+            //startingIndex -= 125;
+            //startingIndex = contents.IndexOf($"th?", startingIndex);
+            //int endingIndex = contents.IndexOf(".jpg", startingIndex) + ".jpg".Length;
+            //StringBuilder sb = new();
+            //sb.Append(@"https://bing.com/");
+            //sb.Append(contents.AsSpan(startingIndex, endingIndex - startingIndex));
+            //url = sb.ToString();
 
             // get a filename from the title in the og:title meta tag
             string find = @"<meta property=""og:title"" content=";
@@ -41,28 +67,10 @@ namespace BingImageRipper
             title = contents[startingIndex..endingIndex];
             title += ".jpg";
 
-            var response = await client.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                var imageBytes = await response.Content.ReadAsByteArrayAsync();
-                using var stream = new MemoryStream(imageBytes);
-                Image image = Image.FromStream(stream);
+            label1.Text = await ImageSaver.SaveImageAsync(url, title);
+            Refresh();
 
-                string filename = $"{address}{title}";
-                if (!File.Exists(filename))
-                {
-                    Thread.Sleep(50);
-                    image.Save(filename);
-                    Thread.Sleep(50);
-                    label1.Text = $"image saved: {title}";
-                    Refresh();
-                }
-                else
-                {
-                    label1.Text = $"image already exists: {title}";
-                    Refresh();
-                }
-            }
+
             Thread.Sleep(2000);
             this.Close();
         }

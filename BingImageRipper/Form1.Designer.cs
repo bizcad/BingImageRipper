@@ -1,4 +1,5 @@
-﻿namespace BingImageRipper
+﻿
+namespace BingImageRipper
 {
     partial class Form1
     {
@@ -34,9 +35,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(174, 104);
+            button1.Location = new System.Drawing.Point(174, 104);
             button1.Name = "button1";
-            button1.Size = new Size(144, 71);
+            button1.Size = new System.Drawing.Size(144, 71);
             button1.TabIndex = 0;
             button1.Text = "Get Image";
             button1.UseVisualStyleBackColor = true;
@@ -45,17 +46,17 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(181, 197);
+            label1.Location = new System.Drawing.Point(181, 197);
             label1.Name = "label1";
-            label1.Size = new Size(95, 20);
+            label1.Size = new System.Drawing.Size(95, 20);
             label1.TabIndex = 1;
             label1.Text = "Image Name";
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new System.Drawing.Size(800, 450);
             Controls.Add(label1);
             Controls.Add(button1);
             Name = "Form1";
