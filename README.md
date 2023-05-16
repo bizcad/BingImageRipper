@@ -9,7 +9,16 @@ This is the first version and does not even have a version.  As a starting point
 
 It uses simple string search IndexOf to locate the `th?` and `jpg` to substring the href.  It does a similar thing to substring the title.  From these, the program builds a file path to an images folder on my hard drive.  This path is hard coded to a hard disk on my development computer.  You should change the code to save to a location on your computer.
 
-It uses the HttpClient to read the bytes from the image url and saves the bytes to the file.
+It uses the HttpClient to read the bytes from the image url and saves the bytes to the file.  
+
+## Update 5/16/2024 ##
+Bing started watermarking the jpeg file.  So I now scrape the .webp files.  This change required that I change back to the SixLabors.ImageSharp library to read the image.  
+
+I also set the windows wallpaper to the jpg file.  
+
+The ImageSaver and Wallpaper are in their own static classes and are called from the Form.Load which calls the two classes and closes the form.
+
+I left the buttons on the form so you can test the two classes or change the UI.
 
 ## Warning ##
 
