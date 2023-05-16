@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Text;
 
 
@@ -27,16 +28,16 @@ namespace BingImageRipper
             //Clipboard.SetText(contents);
             int startingIndex = contents.IndexOf("th?");
             startingIndex = contents.IndexOf("th?", startingIndex + 3);  // get the second one
-            
+
             int endingIndex;
             StringBuilder sb = new();
             if (startingIndex > 0)
             {
                 string c = "1080";
                 char e = '"';
-                
+
                 endingIndex = contents.IndexOf(c, startingIndex);
-                endingIndex=  contents.IndexOf(e, endingIndex);
+                endingIndex = contents.IndexOf(e, endingIndex);
 
                 sb = new();
                 sb.Append(@"https://bing.com/");
@@ -69,9 +70,9 @@ namespace BingImageRipper
 
             label1.Text = await ImageSaver.SaveImageAsync(url, title);
             Refresh();
+            Thread.Sleep(1000);
+            Wallpaper.Set(this.label1.Text, Wallpaper.Style.Stretched);
 
-
-            Thread.Sleep(2000);
             this.Close();
         }
 
@@ -83,6 +84,12 @@ namespace BingImageRipper
         private async void Form1_Load(object sender, EventArgs e)
         {
             await FetchBackgroundImage();
+            //Wallpaper.Set(this.label1.Text, Wallpaper.Style.Stretched);
+        }
+
+        private void ButtonSetBackground_Click(object sender, EventArgs e)
+        {
+            Wallpaper.Set(this.label1.Text, Wallpaper.Style.Stretched);
         }
     }
 }

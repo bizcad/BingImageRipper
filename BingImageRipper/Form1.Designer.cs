@@ -31,13 +31,14 @@ namespace BingImageRipper
         {
             button1 = new Button();
             label1 = new Label();
+            buttonSetBackground = new Button();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new System.Drawing.Point(174, 104);
+            button1.Location = new System.Drawing.Point(298, 12);
             button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(144, 71);
+            button1.Size = new System.Drawing.Size(144, 54);
             button1.TabIndex = 0;
             button1.Text = "Get Image";
             button1.UseVisualStyleBackColor = true;
@@ -46,17 +47,28 @@ namespace BingImageRipper
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(181, 197);
+            label1.Location = new System.Drawing.Point(12, 93);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(95, 20);
+            label1.Size = new System.Drawing.Size(76, 20);
             label1.TabIndex = 1;
-            label1.Text = "Image Name";
+            label1.Text = "File Name";
+            // 
+            // buttonSetBackground
+            // 
+            buttonSetBackground.Location = new System.Drawing.Point(490, 12);
+            buttonSetBackground.Name = "buttonSetBackground";
+            buttonSetBackground.Size = new System.Drawing.Size(183, 54);
+            buttonSetBackground.TabIndex = 2;
+            buttonSetBackground.Text = "Set Background";
+            buttonSetBackground.UseVisualStyleBackColor = true;
+            buttonSetBackground.Click += ButtonSetBackground_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(800, 450);
+            ClientSize = new System.Drawing.Size(920, 150);
+            Controls.Add(buttonSetBackground);
             Controls.Add(label1);
             Controls.Add(button1);
             Name = "Form1";
@@ -70,5 +82,6 @@ namespace BingImageRipper
 
         private Button button1;
         private Label label1;
+        private Button buttonSetBackground;
     }
 }

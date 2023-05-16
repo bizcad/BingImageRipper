@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +16,6 @@ namespace BingImageRipper
 {
     public static class ImageSaver
     {
-        
         public static async Task<string> SaveImageAsync(string url, string title) 
         {
             string address = @"E:\OneDrive - Personal\OneDrive\Pictures\Big Saved Pictures\";
@@ -23,10 +25,24 @@ namespace BingImageRipper
             {
 
                 var imageBytes = await response.Content.ReadAsByteArrayAsync();
-
+                
                 using var stream = new MemoryStream(imageBytes);
+
                 using Task<SixLabors.ImageSharp.Image> image = SixLabors.ImageSharp.Image.LoadAsync(stream);
                 SixLabors.ImageSharp.Image i = image.Result;
+
+                //var tag = new SixLabors.ImageSharp.Metadata.Profiles.Exif.IExifValue<string>();
+
+                //i.Metadata.ExifProfile.SetValue<string>("Comment", "test");
+
+                //foreach (var value in i.Metadata.ExifProfile.Values)
+                //{
+                //    var v = value.GetValue().ToString();
+                //    var t = value.GetType().FullName;
+                //    var tag = value.Tag.ToString();
+                //    string output = ($"{tag} {t} {v}");
+                //    Debug.WriteLine(output);
+                //}
 
                 string filename = $"{address}{title}";
 
@@ -40,10 +56,10 @@ namespace BingImageRipper
                 }
                 else
                 {
-                    return $"image already exists: {title}";
+                    return $"{filename}";
                     
                 }
-                return $"image saved: {title}";
+                return $"{filename}";
             }
             return $"Response: {response.StatusCode} {response.ReasonPhrase}";
         }
