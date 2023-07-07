@@ -45,6 +45,10 @@ namespace BingImageRipper
                 //}
 
                 string filename = $"{address}{title}";
+                if (!filename.EndsWith(".jpg"))
+                {
+                    filename += ".jpg";                    
+                }
 
                 if (!File.Exists(filename))
                 {
@@ -56,6 +60,7 @@ namespace BingImageRipper
                 }
                 else
                 {
+                    
                     return $"{filename}";
                     
                 }

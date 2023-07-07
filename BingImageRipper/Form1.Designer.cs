@@ -29,33 +29,24 @@ namespace BingImageRipper
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            label1 = new Label();
+            labelFileName = new Label();
             buttonSetBackground = new Button();
+            labelTitle = new Label();
+            textBoxTitle = new TextBox();
             SuspendLayout();
             // 
-            // button1
+            // labelFileName
             // 
-            button1.Location = new System.Drawing.Point(298, 12);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(144, 54);
-            button1.TabIndex = 0;
-            button1.Text = "Get Image";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += Button1_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(12, 93);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(76, 20);
-            label1.TabIndex = 1;
-            label1.Text = "File Name";
+            labelFileName.AutoSize = true;
+            labelFileName.Location = new System.Drawing.Point(37, 68);
+            labelFileName.Name = "labelFileName";
+            labelFileName.Size = new System.Drawing.Size(76, 20);
+            labelFileName.TabIndex = 1;
+            labelFileName.Text = "File Name";
             // 
             // buttonSetBackground
             // 
-            buttonSetBackground.Location = new System.Drawing.Point(490, 12);
+            buttonSetBackground.Location = new System.Drawing.Point(370, 116);
             buttonSetBackground.Name = "buttonSetBackground";
             buttonSetBackground.Size = new System.Drawing.Size(183, 54);
             buttonSetBackground.TabIndex = 2;
@@ -63,14 +54,31 @@ namespace BingImageRipper
             buttonSetBackground.UseVisualStyleBackColor = true;
             buttonSetBackground.Click += ButtonSetBackground_Click;
             // 
+            // labelTitle
+            // 
+            labelTitle.AutoSize = true;
+            labelTitle.Location = new System.Drawing.Point(37, 32);
+            labelTitle.Name = "labelTitle";
+            labelTitle.Size = new System.Drawing.Size(38, 20);
+            labelTitle.TabIndex = 3;
+            labelTitle.Text = "Title";
+            // 
+            // textBoxTitle
+            // 
+            textBoxTitle.Location = new System.Drawing.Point(137, 25);
+            textBoxTitle.Name = "textBoxTitle";
+            textBoxTitle.Size = new System.Drawing.Size(713, 27);
+            textBoxTitle.TabIndex = 4;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(920, 150);
+            ClientSize = new System.Drawing.Size(920, 195);
+            Controls.Add(textBoxTitle);
+            Controls.Add(labelTitle);
             Controls.Add(buttonSetBackground);
-            Controls.Add(label1);
-            Controls.Add(button1);
+            Controls.Add(labelFileName);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -79,9 +87,9 @@ namespace BingImageRipper
         }
 
         #endregion
-
-        private Button button1;
-        private Label label1;
+        private Label labelFileName;
         private Button buttonSetBackground;
+        private Label labelTitle;
+        private TextBox textBoxTitle;
     }
 }

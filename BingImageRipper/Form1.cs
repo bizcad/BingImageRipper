@@ -1,12 +1,15 @@
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
-
+using System.IO;
 
 namespace BingImageRipper
 {
     public partial class Form1 : Form
     {
         private string title = string.Empty;
+        private string url = "https://www.bing.com/";
+
         public Form1()
         {
             InitializeComponent();
@@ -19,11 +22,10 @@ namespace BingImageRipper
 
         private async Task FetchBackgroundImage()
         {
-            label1.Text = $"Fetching Image";
+            labelFileName.Text = $"Fetching Image";
             Refresh();
-            string url = "https://www.bing.com/";
             using HttpClient client = new();
-            string contents = GetLatestVersion(client, url);
+            var contents = await client.GetAsync(url).Result.Content.ReadAsStringAsync();
             // for development, get a 
             //Clipboard.SetText(contents);
             int startingIndex = contents.IndexOf("th?");
@@ -67,18 +69,9 @@ namespace BingImageRipper
             endingIndex = contents.IndexOf(@"/>", startingIndex) - 2;
             title = contents[startingIndex..endingIndex];
             title += ".jpg";
+            title = title.Replace("?", string.Empty);
+            textBoxTitle.Text = title;
 
-            label1.Text = await ImageSaver.SaveImageAsync(url, title);
-            Refresh();
-            Thread.Sleep(1000);
-            Wallpaper.Set(this.label1.Text, Wallpaper.Style.Stretched);
-
-            this.Close();
-        }
-
-        private static string GetLatestVersion(HttpClient client, string url)
-        {
-            return client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -87,9 +80,18 @@ namespace BingImageRipper
             //Wallpaper.Set(this.label1.Text, Wallpaper.Style.Stretched);
         }
 
-        private void ButtonSetBackground_Click(object sender, EventArgs e)
+        private async void ButtonSetBackground_Click(object sender, EventArgs e)
         {
-            Wallpaper.Set(this.label1.Text, Wallpaper.Style.Stretched);
+            string filename = await ImageSaver.SaveImageAsync(url, textBoxTitle.Text);
+            labelFileName.Text = filename;
+            FileInfo info = new FileInfo(filename);
+            textBoxTitle.Text = info.Name;
+            Refresh();
+            Thread.Sleep(1000);
+            Wallpaper.Set(this.labelFileName.Text, Wallpaper.Style.Stretched);
+            System.Threading.Thread.Sleep(2000);
+            this.Close();
+            //Wallpaper.Set(this.label1.Text, Wallpaper.Style.Stretched);
         }
     }
 }

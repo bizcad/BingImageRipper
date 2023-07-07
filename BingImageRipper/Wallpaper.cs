@@ -24,30 +24,33 @@ namespace BingImageRipper
 
         public static void Set(string wallpaperImage, Style style)
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-            if (style == Style.Stretched)
+            RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+            if (key != null)
             {
-                key.SetValue(@"WallpaperStyle", 2.ToString());
-                key.SetValue(@"TileWallpaper", 0.ToString());
-            }
+                if (style == Style.Stretched)
+                {
+                    key.SetValue(@"WallpaperStyle", 2.ToString());
+                    key.SetValue(@"TileWallpaper", 0.ToString());
+                }
 
-            if (style == Style.Centered)
-            {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
-                key.SetValue(@"TileWallpaper", 0.ToString());
-            }
+                if (style == Style.Centered)
+                {
+                    key.SetValue(@"WallpaperStyle", 1.ToString());
+                    key.SetValue(@"TileWallpaper", 0.ToString());
+                }
 
-            if (style == Style.Tiled)
-            {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
-                key.SetValue(@"TileWallpaper", 1.ToString());
-            }
+                if (style == Style.Tiled)
+                {
+                    key.SetValue(@"WallpaperStyle", 1.ToString());
+                    key.SetValue(@"TileWallpaper", 1.ToString());
+                }
 
-            int result = SystemParametersInfo(SPI_SETDESKWALLPAPER,
-                0,
-                wallpaperImage,
-                SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
-            Debug.WriteLine(result);
+                int result = SystemParametersInfo(SPI_SETDESKWALLPAPER,
+                    0,
+                    wallpaperImage,
+                    SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
+                Debug.WriteLine(result);
+            }
 
         }
     }
