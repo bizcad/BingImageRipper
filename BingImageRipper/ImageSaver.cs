@@ -53,6 +53,7 @@ namespace BingImageRipper
                 {
                     File.Delete(filename);
                 }
+                Thread.Sleep(50);
                 if (!File.Exists(filename))
                 {
                     Thread.Sleep(50);
