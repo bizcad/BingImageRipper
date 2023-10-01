@@ -49,10 +49,12 @@ namespace BingImageRipper
                 {
                     filename += ".jpg";                    
                 }
-
+                if(File.Exists(filename))
+                {
+                    File.Delete(filename);
+                }
                 if (!File.Exists(filename))
                 {
-
                     Thread.Sleep(50);
                     await i.SaveAsJpegAsync(filename);
                     //image.Save(filename);
