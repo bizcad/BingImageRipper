@@ -9,6 +9,7 @@ namespace BingImageRipper
 {
     public partial class Form1 : Form
     {
+        private const string Message = "Could not find the headline.";
         private string title = string.Empty;
         private string headline = string.Empty;
         private string url = "https://www.bing.com/";
@@ -51,67 +52,33 @@ namespace BingImageRipper
         {
             labelFileName.Text = $"Getting Image Save To Filename."; 
             Refresh();
-            //using HttpClient client = new();
-            //var contents = await client.GetAsync(url).Result.Content.ReadAsStringAsync();
-            //// for development, get a clipboard
-            //System.Windows.Forms.Clipboard.SetText(contents);
-            //int startingIndex = contents.IndexOf("th?");
-            //startingIndex = contents.IndexOf("th?", startingIndex + 3);  // get the second one
-            //int endingIndex;
-            //StringBuilder sb = new();
-            //if (startingIndex > 0)
-            //{
-            //    string c = "1080";
-            //    char e = '"';
 
-            //    endingIndex = contents.IndexOf(c, startingIndex);
-            //    endingIndex = contents.IndexOf(e, endingIndex);
-
-            //    sb = new();
-            //    sb.Append(@"https://bing.com/");
-            //    sb.Append(contents.AsSpan(startingIndex, endingIndex - startingIndex));
-            //    url = sb.ToString();
-            //    url = url[..url.IndexOf('&')];
-            //}
-            //if (url.Length == 0)
-            //{
-            //    throw new Exception("url not found");
-            //}
-            //else
-            //{
-
-            //}
-            //startingIndex -= 125;
-            //startingIndex = contents.IndexOf($"th?", startingIndex);
-            //int endingIndex = contents.IndexOf(".jpg", startingIndex) + ".jpg".Length;
-            //StringBuilder sb = new();
-            //sb.Append(@"https://bing.com/");
-            //sb.Append(contents.AsSpan(startingIndex, endingIndex - startingIndex));
-            //url = sb.ToString();
-
-            // get a filename from the title in the og:title meta tag
-            //string find = @"<meta property=""og:title"" content=";
-            //int startingIndex = contents.IndexOf(find, 0) + 1 + find.Length;
-            //int endingIndex = contents.IndexOf(@"/>", startingIndex) - 2;
-            //title = contents[startingIndex..endingIndex];
-            //title += ".jpg";
-            //title = title.Replace("?", string.Empty);
-
-            // Create a filename from the ImageContent.
+            // Create a descriptive filename from the ImageContent in the black heading box 
             int startingIndex = contents.IndexOf(@"ImageContent", 0);
-            startingIndex = contents.IndexOf(@"Title", startingIndex + 9);
-            int endingIndex = contents.IndexOf('"', startingIndex + 12);
-            startingIndex += @"Title".Length + 4;
+            StringBuilder sb = new StringBuilder();
+            // "Title":"
+            sb.Append('"');
+            sb.Append("Title");
+            sb.Append('"');
+            sb.Append(':');
+            sb.Append('"');
+            string f = sb.ToString();
+            startingIndex = contents.IndexOf(f, startingIndex);   // find the title
+            startingIndex = startingIndex + f.Length;               // advance the pointer to the end of the Title string
+            int endingIndex = startingIndex + 1;                    // set the ending index to the pointer + 1 for the "
+            endingIndex = contents.IndexOf('"', endingIndex);   // find the end of the quoted string
+
             headline = contents[startingIndex..endingIndex];
+            if (headline.Length < 1)
+            {
+                throw new Exception(Message);
+            }
             headline += ".jpg";
             headline = string.Join("_", headline.Split(Path.GetInvalidFileNameChars()));
             headline = headline.Replace("?", string.Empty)
                 .Replace(",", string.Empty)
                 .Replace("'", string.Empty);
-            if (headline.Length < 4)
-            {
-                throw new Exception("Zero Length Filename from ImageContent");
-            }
+
             textBoxTitle.Text = headline;
         }
 
